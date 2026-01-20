@@ -58,7 +58,7 @@ class StagaireController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Stagaire $stagaire)
+    public function update(Request $request, Stagaire $stagaire) 
     {
         $stagaire->nom = $request->nom ;
         $stagaire->prenom = $request->prenom ;
