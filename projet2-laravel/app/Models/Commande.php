@@ -9,7 +9,9 @@ class Commande extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['date' , 'client_id'];
+
     public function Client(){
-        return $this->belongsToMany(Client::class) ;
+        return $this->belongsTo(Client::class) ;
     }
 }

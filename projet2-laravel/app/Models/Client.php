@@ -10,6 +10,6 @@ class Client extends Model
     use HasFactory;
 
     public function Commande(){
-        return $this->hasOne(Commande::class) ;
+        return $this->hasMany(Commande::class) ;
     }
 }
