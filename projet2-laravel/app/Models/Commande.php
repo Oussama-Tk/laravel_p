@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Commande extends Model
 {
     use HasFactory;
+
+    public function Client(){
+        return $this->belongsToMany(Client::class) ;
+    }
 }
