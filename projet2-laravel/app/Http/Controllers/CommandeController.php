@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Commande;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class CommandeController extends Controller
 {
@@ -45,7 +46,9 @@ class CommandeController extends Controller
      */
     public function show(Commande $commande)
     {
-        
+        $client = $commande->client ;
+        $commande_produits = $commande->produits ;
+        return view('commandes.show' , compact('client' , 'commande_produits'));
     }
 
     /**
@@ -53,7 +56,8 @@ class CommandeController extends Controller
      */
     public function edit(Commande $commande)
     {
-        return view('commandes.edit' , compact('commande')) ;
+        $clients = Client::all() ;
+        return view('commandes.edit' , compact('commande' , 'clients')) ;
     }
 
     /**
@@ -63,11 +67,14 @@ class CommandeController extends Controller
     {
         $validated = $request->validate([
             'date' => 'required|date' ,
-            'client_id' => 'required|exists::clients,id'
+            'client_id' => 'required|exists:clients,id'
         ]) ;
 
         $commande->update($validated) ;
+        return Redirect()->route('commandes.index')->with('success' , 'Commande Modifiee !') ;
     }
+
+    
 
     /**
      * Remove the specified resource from storage.
