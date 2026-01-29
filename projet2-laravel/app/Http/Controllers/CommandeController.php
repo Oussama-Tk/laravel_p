@@ -34,8 +34,7 @@ class CommandeController extends Controller
     {
         $validated = $request->validate([
             'date' => 'required|date' ,
-            'client_id' => 'required|exists:clients,id'
-        ]) ;
+            'client_id' => 'required|exists:clients,id'        ]) ;
 
         Commande::create($validated) ;
         return Redirect()->route('commandes.index')->with('success', 'Commande ajoutée !');
