@@ -25,7 +25,28 @@
             <a href="{{ route('commandes.create') }}" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> Nouvelle Commande
             </a>
+            <a href="{{ route('commandes.search') }}" class="btn btn-primary">
+                <i class="bi bi-search"></i> Search
+            </a>
         </div>
+    </div>
+    <div class="row mb-4">
+        <form method="GET" action="{{ route('commandes.index') }}" class="mb-4 row g-2 align-items-center">
+            <div class="col-auto">
+                <label for="">Filtrer par client : </label>
+            </div>
+            <div class="col-auto">
+                <select name="client_id" id="client_id" onchange="this.form.submit()" class="form-select">
+                    <option value="">Tous</option>
+                    @foreach($clients as $client)
+                    <option value="{{ $client->id }}" {{ request('client_id') == $client->id ? 'selected' : '' }}>{{ $client->nom }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-auto">
+            <a href="{{ route('commandes.index') }}" class="btn btn-outline-secondary">Réinitialiser</a>
+            </div>
+        </form>
     </div>
 
     <div class="card shadow-sm">

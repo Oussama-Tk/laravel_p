@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;
         return 'Bounjour Laravel' ;
     }) ;
 
-///// 2 :
+///// 2 : 
 
     Route::get('/accuil' , function(){
         return view('accuil') ;

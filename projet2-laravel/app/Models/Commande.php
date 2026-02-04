@@ -16,7 +16,7 @@ class Commande extends Model
         return $this->belongsTo(Client::class) ;
     }
 
-    public function Produit(){
-        return $this->belongsToMany(Produit::class)->withPivot('qte_cmd') ;
+    public function Produits(){
+        return $this->belongsToMany(Produit::class , 'commande_produit')->withPivot('qte_cmd') ;
     }
 }

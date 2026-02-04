@@ -128682,3 +128682,11 @@ Did you mean one of these?
 #53 C:/wamp64/www/projet-laravel/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('C://wamp64//www//p...')
 #54 {main}
 "} 
+[2026-01-31 16:19:24] local.ERROR: Command "ajouter_colonne_role_to_acteurs" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"ajouter_colonne_role_to_acteurs\" is not defined. at C:/wamp64/www/projet-laravel/vendor/symfony/console/Application.php:745)
+[stacktrace]
+#0 C:/wamp64/www/projet-laravel/vendor/symfony/console/Application.php(266): Symfony/Component/Console/Application->find('ajouter_colonne...')
+#1 C:/wamp64/www/projet-laravel/vendor/symfony/console/Application.php(175): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#2 C:/wamp64/www/projet-laravel/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(201): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 C:/wamp64/www/projet-laravel/artisan(35): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 {main}
+"} 

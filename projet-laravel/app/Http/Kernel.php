@@ -47,7 +47,7 @@ class Kernel extends HttpKernel
             'age' => \App\Http\Middleware\AgeMiddleware::class,
             'user' => \App\Http\Middleware\UserMiddleware::class,
         ],
-    ];
+    ]; 
 
     /**
      * The application's middleware aliases.
@@ -71,6 +71,6 @@ class Kernel extends HttpKernel
         'TwoMiddleware' => \App\Http\Middleware\TwoMiddleware::class,
         'ThreeMiddleware' => \App\Http\Middleware\ThreeMiddleware::class,
         'age' => \App\Http\Middleware\AgeMiddleware::class,
-        'user' => \App\Http\Middleware\UserMiddleware::class
+        'user' => \App\Http\Middleware\UserMiddleware::class ,
     ];
 }

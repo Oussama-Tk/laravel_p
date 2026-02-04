@@ -4,18 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Commande;
+use App\Models\Produit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class CommandeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('dateLimit') ;
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $commandes = Commande::with('client')->paginate(10);
-        return view('commandes.index' , compact('commandes')) ;
+        $clients = Client::all() ;
+        $commandes = Commande::with('client') ;
+        if($request->has('client_id') && $request->client_id !=""){
+            $commandes = $commandes->where('client_id' , $request->client_id) ;
+        }
+        $commandes = $commandes->paginate(10) ;
+        return view('commandes.index' , compact('commandes' , 'clients')) ;
     }
 
     /**
@@ -34,7 +45,7 @@ class CommandeController extends Controller
     {
         $validated = $request->validate([
             'date' => 'required|date' ,
-            'client_id' => 'required|exists:clients,id'        ]) ;
+            'client_id' => 'required|exists:clients,id']) ;
 
         Commande::create($validated) ;
         return Redirect()->route('commandes.index')->with('success', 'Commande ajoutée !');
@@ -45,9 +56,9 @@ class CommandeController extends Controller
      */
     public function show(Commande $commande)
     {
-        $client = $commande->client ;
-        $commande_produits = $commande->produits ;
-        return view('commandes.show' , compact('client' , 'commande_produits'));
+        $commande->load(['client' , 'produits']) ;
+        $produits = Produit::all() ;
+        return view('commandes.show' , compact('commande' , 'produits')); 
     }
 
     /**
@@ -82,5 +93,27 @@ class CommandeController extends Controller
     {
         $commande->delete() ;
         return Redirect()->route('commandes.index')->with('success', 'Commande supprimée !');
+    }
+
+    public function ajouter_produits(Request $request , Commande $commande){
+        $request->validate([
+            'produit_id' => 'required|exists:produits,id' ,
+            'qte_cmd' => 'required|integer|min:1'
+        ]);
+
+        $commande->produits()->attach($request->produit_id , ['qte_cmd' => $request->qte_cmd]) ;
+        return back() ;
+    }
+    public function search(Request $request){
+        $query = Commande::with('client') ;
+        if($request->has('client_id') && $request->client_id != ''){
+            $query->where('client_id' , $request->client_id) ;
+        }
+
+        $commandes = $query->paginate(10) ;
+        $clients = Client::all() ;
+
+        return view('commandes.search' , compact('commandes' , 'clients')) ;
+
     }
 }
