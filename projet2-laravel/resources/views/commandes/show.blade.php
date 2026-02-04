@@ -13,7 +13,7 @@
         <div class="col-md-10 mx-auto">
             
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Facture / Commande n°{{ $commande->id }}</h2>
+                <h2>Commande n°{{ $commande->id }}</h2>
                 <span class="badge bg-primary fs-6">Date : {{ \Carbon\Carbon::parse($commande->date)->format('d/m/Y') }}</span>
             </div>
 
@@ -72,7 +72,7 @@
 
         </div>
     </div>
-    <div class="card mb-4 border-primary shadow-sm">
+    <div class="card mb-4 border-primary shadow-sm mt-4">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Ajouter un produit à cette commande</h5>
         </div>
