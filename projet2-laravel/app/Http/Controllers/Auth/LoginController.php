@@ -39,24 +39,4 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
-
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email' , 'password') ;
-
-        if(Auth::attempt($credentials)){
-            $request->session()->regenerate() ;
-
-            if(Auth::user()->isAdmin()){
-                return redirect('/admin') ;
-            }
-
-            return redirect('/home') ;
-
-        }
-
-        return back()->with('error', 'somthing goes wrong x) !!')->withErrors([
-            'email' => 'Email ou mot de passe incorrect !!'
-        ])->withInput() ;
-    }
 }

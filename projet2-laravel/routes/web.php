@@ -1,9 +1,9 @@
 <?php
 
-
+use App\Http\Controllers\AuthTestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use Symfony\Component\HttpFoundation\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +25,19 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
-Route::get('/admin' , function(){
-    return 'Bienvenue Admin' ;
-})->middleware(['auth' , 'admin']) ;
+Route::get('/auth-test' , [AuthTestController::class , 'index'])->name('auth.test') ;
+
+Route::get('/auth-logout' , function(){
+    Auth::logout();
+    return redirect('/login') ;
+})->name('auth.logout') ;
+
+Route::view('/auth-login' , 'auth-test.login') ;
+
+Route::post('/auth-manuel-logic' , function(Request $request){
+    if(Auth::attempt($request->only('email' , 'password'))){
+        return redirect('/auth-test') ;
+    }
+
+    return back()->withErrors(['email' => 'Connexion echouee !']) ;
+})->name('auth.manual.login') ;
