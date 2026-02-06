@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthTestController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpFoundation\Request;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +43,8 @@ Route::post('/auth-manuel-logic' , function(Request $request){
 
     return back()->withErrors(['email' => 'Connexion echouee !']) ;
 })->name('auth.manual.login') ;
+
+Route::get('/logout-test' , function(){
+    Auth::logout() ;
+    return redirect('/login') ;
+})->name('logout-test') ;

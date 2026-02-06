@@ -21,6 +21,8 @@
             </li>
         </ul>
 
+        <pre>{{ dd(session()) }}</pre>
+
         @auth
             <a href="{{ route('auth.logout') }}" class="btn btn-danger">Logout</a>   
         @endauth
