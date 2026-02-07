@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Sanctum SPA</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body { font-family: sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
+        .box { background: #333; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+        input { padding: 8px; margin: 5px 0; width: 100%; box-sizing: border-box; }
+        button { padding: 10px; background: #3b82f6; color: white; border: none; cursor: pointer; width: 100%; margin-top: 10px;}
+        button:hover { background: #2563eb; }
+        button.logout { background: #ef4444; }
+        pre { background: #000; padding: 10px; overflow: auto; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <h1>Test Authentification Sanctum</h1>
+
+    <div class="box" id="register-box">
+        <h3>S'inscrire</h3>
+        <input type="text" id="reg-name" placeholder="Nom">
+        <input type="email" id="reg-email" placeholder="Email">
+        <input type="password" id="reg-password" placeholder="Mot de passe">
+        <button onclick="register()">S'inscrire</button>
+    </div>
+
+    <div class="box" id="login-box">
+        <h3>Se connecter</h3>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-password" placeholder="Mot de passe">
+        <button onclick="login()">Se connecter</button>
+    </div>
+
+    <div class="box hidden" id="user-box">
+        <h3 style="color: #4ade80;">Vous êtes connecté !</h3>
+        <button onclick="getUserData()">Voir mes infos (Test API)</button>
+        <button class="logout" onclick="logout()">Se déconnecter</button>
+    </div>
+
+    <div class="box">
+        <h3>Résultat JSON :</h3>
+        <pre id="result">En attente...</pre>
+    </div>
+
+    <script>
+        // CONFIGURATION AXIOS
+        // Très important : permet d'envoyer les cookies automatiquement
+        axios.defaults.withCredentials = true;
+        axios.defaults.baseURL = 'http://localhost:8000';
+
+        // AFFICHER LES RESULTATS
+        function showResult(data) {
+            document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+        }
+
+        // GESTION AFFICHAGE
+        function toggleAuth(isLoggedIn) {
+            if(isLoggedIn) {
+                document.getElementById('register-box').classList.add('hidden');
+                document.getElementById('login-box').classList.add('hidden');
+                document.getElementById('user-box').classList.remove('hidden');
+            } else {
+                document.getElementById('register-box').classList.remove('hidden');
+                document.getElementById('login-box').classList.remove('hidden');
+                document.getElementById('user-box').classList.add('hidden');
+            }
+        }
+
+        // --- 1. REGISTER ---
+        async function register() {
+            try {
+                await axios.get('/sanctum/csrf-cookie'); // Toujours le cookie d'abord
+                const res = await axios.post('/api/register', {
+                    name: document.getElementById('reg-name').value,
+                    email: document.getElementById('reg-email').value,
+                    password: document.getElementById('reg-password').value
+                });
+                showResult(res.data);
+                toggleAuth(true);
+            } catch (error) {
+                showResult(error.response.data);
+            }
+        }
+
+        // --- 2. LOGIN ---
+        async function login() {
+            try {
+                await axios.get('/sanctum/csrf-cookie'); // Toujours le cookie d'abord
+                const res = await axios.post('/api/login', {
+                    email: document.getElementById('login-email').value,
+                    password: document.getElementById('login-password').value
+                });
+                showResult(res.data);
+                toggleAuth(true);
+            } catch (error) {
+                showResult(error.response ? error.response.data : error);
+            }
+        }
+
+        // --- 3. GET USER INFO ---
+        async function getUserData() {
+            try {
+                const res = await axios.get('/api/user');
+                showResult(res.data);
+            } catch (error) {
+                showResult(error.response.data);
+                if(error.response.status === 401) toggleAuth(false);
+            }
+        }
+
+        // --- 4. LOGOUT ---
+        async function logout() {
+            try {
+                const res = await axios.post('/api/logout');
+                showResult(res.data);
+                toggleAuth(false);
+            } catch (error) {
+                showResult(error.response.data);
+            }
+        }
+    </script>
+</body>
+</html>
