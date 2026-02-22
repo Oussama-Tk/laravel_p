@@ -47,7 +47,7 @@ class LivreController extends Controller
      */
     public function show(Livre $livre)
     {
-        $livre->load('auteur') ;
+        $livre->load(['auteur' , 'emprunts']) ;
 
         return view('livres.show' , compact($livre)) ;
     }
