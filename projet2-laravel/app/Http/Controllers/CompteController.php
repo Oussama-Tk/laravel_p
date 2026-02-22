@@ -21,7 +21,7 @@ class CompteController extends Controller
         ]) ;
 
         Compte::create([
-            'login' => $request->login ,
+            'login' => $validated['login'] ,
             'mot_passe' => Hash::make($request->mot_passe) ,
             'profil' => $request->profil ,
         ]) ;
@@ -36,7 +36,7 @@ class CompteController extends Controller
 
         $currentUser = Compte::where('login' , $request->login)->first() ;
         if($currentUser && Hash::check($request->mot_passe , $currentUser->mot_passe)){
-            session(['currentUser' => Compte::where('login' , $request->login)->first()]) ;
+            session(['currentUser' => $currentUser ]) ;
             return redirect('profil');
         }
 

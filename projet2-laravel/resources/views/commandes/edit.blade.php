@@ -1,4 +1,4 @@
-<div>
+{{-- <div>
     <form action="{{ route('commandes.update' , $commande->id) }}" method="POST">
         @method('PUT') 
         @csrf
@@ -6,7 +6,7 @@
 
         </div>
     </form>
-</div>
+</div> --}}
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,7 +21,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div>
-                <form action="{{ route('commandes.update' , $commande->id) }}" method="POST">
+                <form action="{{ route('commandes.update' , $commande) }}" method="POST">
                     @method('PUT') 
                     @csrf
                     <div class="mb-3">

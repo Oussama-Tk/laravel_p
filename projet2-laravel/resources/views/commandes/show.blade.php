@@ -72,6 +72,9 @@
 
         </div>
     </div>
+
+    {{-- Ajouter Produit a la Commande existant : --}}
+    
     <div class="card mb-4 border-primary shadow-sm mt-4">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Ajouter un produit à cette commande</h5>

@@ -35,7 +35,7 @@ class CommandeController extends Controller
     public function create()
     {
         $clients = Client::all() ;
-        return view('commandes.create' , compact('clients')) ;
+        return view('commandes.create' , compact('clients')) ; 
     }
 
     /**
@@ -104,6 +104,7 @@ class CommandeController extends Controller
         $commande->produits()->attach($request->produit_id , ['qte_cmd' => $request->qte_cmd]) ;
         return back() ;
     }
+    
     public function search(Request $request){
         $query = Commande::with('client') ;
         if($request->has('client_id') && $request->client_id != ''){
