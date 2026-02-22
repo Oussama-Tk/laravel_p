@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LivreController;
 use App\Http\Controllers\StagaireController;
 use App\Models\Stagaire;
 use Illuminate\Support\Facades\Route;
@@ -19,3 +20,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('livres' , LivreController::class)->middleware('Authen') ;
