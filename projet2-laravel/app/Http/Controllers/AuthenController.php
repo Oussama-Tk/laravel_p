@@ -45,7 +45,7 @@ class AuthenController extends Controller
         $client = Client::where('email' , $validated['email'])->first() ;
 
         if($client && Hash::check($client->password , $validated['password'])){
-            session('currentClient' , $client) ;
+            session(['currentClient' => $client]) ;
             session()->regenerate() ;
             return redirect()->route('livres.index')->with('success', 'Heureux de vous revoir !');
         }
