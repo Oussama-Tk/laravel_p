@@ -20,4 +20,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('livres' , LivreController::class)->middleware('Authen') ;
+Route::get('/livres/{livre}/confirmationDelete' , [LivreController::class , 'confirmationDelete'])->name('livres.confirmationDelete') ;
+
+Route::resource('livres' , LivreController::class) ;

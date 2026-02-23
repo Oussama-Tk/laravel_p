@@ -11,9 +11,20 @@ class LivreController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $livres = Livre::with('auteur')->paginate(10) ;
+        $query = Livre::with('auteur') ;
+
+        if($request->has('annee_pub') && $request->annee_pub != ''){
+            $query->where('annee_pub' , '>' , $request->annee_pub) ;
+        }
+
+        if($request->has('nb_pages') && $request->nb_pages != ''){
+            $query->where('nb_pages' , '>' , $request->nb_pages) ;
+        }
+
+
+        $livres = $query->paginate(10) ;
         return view('livres.index' , compact('livres')) ;
     }
 
@@ -35,7 +46,7 @@ class LivreController extends Controller
             'titre' => 'required|max:200' ,
             'annee_pub' => 'required|numeric|gt:1900' ,
             'nb_pages' => 'required|numeric' ,
-            'auteur_id' => 'required|exists:auteurs , id' ,
+            'auteur_id' => 'required|exists:auteurs,id' ,
         ]) ;
 
         Livre::create($validated) ;
@@ -49,7 +60,7 @@ class LivreController extends Controller
     {
         $livre->load(['auteur' , 'emprunts']) ;
 
-        return view('livres.show' , compact($livre)) ;
+        return view('livres.show' , compact('livre')) ;
     }
 
     /**
@@ -57,8 +68,9 @@ class LivreController extends Controller
      */
     public function edit(Livre $livre)
     {
+        $auteurs = Auteur::all() ;
         $livre->load('auteur') ;
-        return view('livres.edit' , compact('livre')) ;
+        return view('livres.edit' , compact('livre' , 'auteurs')) ;
     }
 
     /**
@@ -70,15 +82,15 @@ class LivreController extends Controller
             'titre' => 'required|max:200' ,
             'annee_pub' => 'required|numeric|gt:1900' ,
             'nb_pages' => 'required|numeric' ,
-            'auteur_id' => 'required|exists:auteurs , id' ,
+            'auteur_id' => 'required|exists:auteurs,id' ,
         ]) ;
 
         $livre->update($validated) ;
         return redirect()->route('livres.index')->with('success' , 'livre modifiee avec success') ;
     }
 
-    public function confirmDestroy(Livre $livre){
-        return view('livres.supprimer' , compact('livre')) ;
+    public function confirmationDelete(Livre $livre){
+        return view('livres.confirmationDelete' , compact('livre')) ;
     }
 
     /**

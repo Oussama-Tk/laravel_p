@@ -15,9 +15,9 @@ class Authen
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->session()->has('currentUser')){
-            return redirect()->route('login')->with('error' , 'Vous devez être connecté pour accéder à cette page.') ;
-        }
+        // if(!$request->session()->has('currentUser')){
+        //     return redirect()->route('login')->with('error' , 'Vous devez être connecté pour accéder à cette page.') ;
+        // }
         return $next($request);
     }
 }

@@ -4,7 +4,7 @@
 
 @section('content')
     <div>
-        <form action="{{ route('livres.update' , $livre) }}" methode="POST">
+        <form action="{{ route('livres.update' , $livre) }}" method="POST">
             @method('PUT')
             @csrf
 
@@ -17,14 +17,14 @@
             </div>
             <div>
                 <label for="annee_pub">Annee Publication</label>
-                <input type="number" name="annee_pub" required value="{{ $titre->annee_pub }}">
+                <input type="number" name="annee_pub" required value="{{ $livre->annee_pub }}">
                 @error('annee_pub')
                     <p style="color: red"> {{ $message }} </p>
                 @enderror
             </div>
             <div>
                 <label for="nb_pages">Nombre de pages</label>
-                <input type="number" name="nb_pages" required value="{{ $titre->nb_pages }}">
+                <input type="number" name="nb_pages" required value="{{ $livre->nb_pages }}">
                 @error('nb_pages')
                     <p style="color: red"> {{ $message }} </p>
                 @enderror
@@ -33,7 +33,7 @@
                 <label for="auteur_id">Auteur</label>
                 <select name="auteur_id" id="auteur_id">
                     @foreach ($auteurs as $auteur)
-                        <option value="{{ $auteur->id }}" {{ $auteur->id == $titre->auteur_id ? 'selected' : '' }}>
+                        <option value="{{ $auteur->id }}" {{ $auteur->id == $livre->auteur_id ? 'selected' : '' }}>
                             {{ $auteur->nom }} {{ $auteur->prenom }}
                         </option>
                     @endforeach

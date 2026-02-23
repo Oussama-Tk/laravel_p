@@ -9,6 +9,8 @@ class Livre extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function Auteur(){
         return $this->belongsTo(Auteur::class) ;
     }
