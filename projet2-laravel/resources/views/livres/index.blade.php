@@ -11,6 +11,10 @@
         @endif
         
         <h2>Liste des livres :</h2>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit">Logout</button>
+        </form>
         <div>
             <form action="{{ route('livres.index') }}" method="GET">
                 <input type="number" name="annee_pub" value="{{ request('annee_pub') }}">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthenController;
 use App\Http\Controllers\LivreController;
 use App\Http\Controllers\StagaireController;
 use App\Models\Stagaire;
@@ -22,4 +23,10 @@ Route::get('/', function () {
 
 Route::get('/livres/{livre}/confirmationDelete' , [LivreController::class , 'confirmationDelete'])->name('livres.confirmationDelete') ;
 
-Route::resource('livres' , LivreController::class) ;
+Route::get('/inscription' , [AuthenController::class, 'inscrireForm'])->name('register') ;
+Route::post('/inscription' , [AuthenController::class, 'inscrire'])->name('register.post') ;
+Route::get('/connexion' , [AuthenController::class, 'connexionForm'])->name('login') ;
+Route::post('/connexion' , [AuthenController::class, 'connexion'])->name('login.post') ;
+Route::post('/logout' , [AuthenController::class, 'logout'])->name('logout') ;
+
+Route::resource('livres' , LivreController::class)->middleware('Authen') ;

@@ -24,7 +24,7 @@ class AuthenController extends Controller
             'nom' => $validated['nom'] ,
             'prenom' => $validated['prenom']  ,
             'email' => $validated['email']  ,
-            'password' => Hash::make($validated['nom'])  ,
+            'password' => Hash::make($validated['password'])  ,
         ]) ;
 
         return redirect()->route('login')->with('success' , 'client cree avec success !') ;
@@ -36,17 +36,15 @@ class AuthenController extends Controller
 
     public function connexion(Request $request){
         $validated = $request->validate([
-            'nom' => 'required|max:80' ,
-            'prenom' => 'required|max:80' ,
-            'email' => 'required|email|unique:clients,email' ,
+            'email' => 'required|email' ,
             'password' => 'required|min:8' ,
         ]) ;
 
         $client = Client::where('email' , $validated['email'])->first() ;
 
-        if($client && Hash::check($client->password , $validated['password'])){
-            session(['currentClient' => $client]) ;
+        if($client && Hash::check($validated['password'], $client->password)){
             session()->regenerate() ;
+            session(['currentClient' => $client]) ;
             return redirect()->route('livres.index')->with('success', 'Heureux de vous revoir !');
         }
 
@@ -54,6 +52,8 @@ class AuthenController extends Controller
     }
 
     public function logout(){
-        session()->invalidate() ;
+        session()->flush() ;
+
+        return redirect()->route('login') ;
     }
 }
