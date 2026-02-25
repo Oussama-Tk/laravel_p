@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\StagaireController;
-use App\Models\Stagaire;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test-mail', function () {
+    Mail::raw('Test email Laravel', function ($message) {
+        $message->to('oussamatkitak8@gmail.com')
+                ->subject('Test Mail');
+    });
+
+    return 'Email sent successfully!';
+});
